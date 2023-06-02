@@ -15,6 +15,10 @@ wp.blocks.registerBlockType("siluteskc/contact-cards-container", {
         imgUrl: {type: "string"},
         imgID2: {type: "number"},
         imgUrl2: {type: "string"},
+        jobPosFileId: {type: "number"},
+        jobPosFileUrl: {type: "string"},
+        cvFileId: {type: "number"},
+        cvFileUrl: {type: "string"},
     },
     edit: EditComponent,
     save: function () {
@@ -42,6 +46,14 @@ function EditComponent(props) {
     function onFileSelect2(img){
         props.setAttributes({imgID2: img.id})
         props.setAttributes({imgUrl2: img.url})
+    }
+    function onJobPosFileSelect(jobPosF){
+        props.setAttributes({jobPosFileId: jobPosF.id})
+        props.setAttributes({jobPosFileUrl: jobPosF.url})
+    }
+    function onCvFileSelect(cvF){
+        props.setAttributes({cvFileId: cvF.id})
+        props.setAttributes({cvFileUrl: cvF.url})
     }
 
     return (
@@ -82,6 +94,30 @@ function EditComponent(props) {
                 </FlexBlock>
                 <FlexBlock>
                     <TextControl label="El. paštas" value={props.attributes.emailAddress} onChange={updateEmailAddress} />
+                </FlexBlock>
+            </Flex>
+            <Flex>
+                <FlexBlock>
+                    <MediaUploadCheck>
+                        <MediaUpload onSelect={onJobPosFileSelect} value={props.attributes.jobPosFileId} render={({open}) => {
+                            return <Button variant="primary" onClick={open}>Pareigybių PDF failas</Button>
+                        }} />
+                    </MediaUploadCheck>
+                    <div style={{marginTop: "10px", marginBottom: "10px"}}>
+                    <a href={props.attributes.jobPosFileUrl} target="_blank" style={{color: "#000000"}}>{props.attributes.jobPosFileUrl ? `${props.attributes.jobPosFileUrl}` : `PDF nėra įkeltas.`}</a>
+                    </div>
+                </FlexBlock>
+            </Flex>
+            <Flex>
+                <FlexBlock>
+                    <MediaUploadCheck>
+                        <MediaUpload onSelect={onCvFileSelect} value={props.attributes.cvFileId} render={({open}) => {
+                            return <Button variant="primary" onClick={open}>CV PDF failas</Button>
+                        }} />
+                    </MediaUploadCheck>
+                    <div style={{marginTop: "10px"}}>
+                    <a href={props.attributes.cvFileUrl} target="_blank" style={{color: "#000000"}}>{props.attributes.cvFileUrl ? `${props.attributes.cvFileUrl}` : `CV PDF neįkeltas.`}</a>
+                    </div>
                 </FlexBlock>
             </Flex>
         </div>
